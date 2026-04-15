@@ -1,0 +1,8 @@
+{
+  "installCommand": "pip install flask",
+  "buildCommand": "echo Build complete",
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api.py" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
