@@ -1,21 +1,27 @@
 import json
 import os
+import requests
 from flask import Flask, jsonify, request, send_from_directory
 
 app = Flask(__name__)
-DATA_FILE = "/tmp/data.json"
+
+BIN_ID = "69e02a3236566621a8ba3b11"
+API_KEY = "$2a$10$AhbCQtCSwmm/.5cmWoqs9O9LqiJlOq3ix4vK8s9AGnDPVv2B4xPNW"
+
+BASE_URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}"
 
 
 def load_data():
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "r") as f:
-            return json.load(f)
+    headers = {"X-Master-Key": API_KEY}
+    res = requests.get(BASE_URL, headers=headers)
+    if res.status_code == 200:
+        return res.json().get("record", {"names": [], "scores": {}})
     return {"names": [], "scores": {}}
 
 
 def save_data(data):
-    with open(DATA_FILE, "w") as f:
-        json.dump(data, f)
+    headers = {"X-Master-Key": API_KEY, "Content-Type": "application/json"}
+    requests.put(BASE_URL, headers=headers, json=data)
 
 
 @app.route("/api/data")
