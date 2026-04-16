@@ -268,6 +268,9 @@
       }
 
       async function render() {
+        const div = document.getElementById("entries");
+        div.innerHTML = '<div style="text-align:center;padding:20px;">🏀 Cargando...</div>';
+        
         const data = await fetchData();
         const entries = data.names
           .map((n) => ({ name: n, score: data.scores[n] || 0 }))
@@ -315,6 +318,10 @@
         }
 
         if (pendingMode === "incrementar") {
+          const btn = event.target;
+          btn.disabled = true;
+          btn.textContent = "🏀...";
+          
           const res = await fetch(API_URL + "/increment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -361,6 +368,10 @@
           return;
         }
         
+        const btn = event.target;
+        btn.disabled = true;
+        btn.textContent = "🏀...";
+        
         fetch(API_URL + "/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -368,6 +379,8 @@
         })
         .then((res) => res.json())
         .then((result) => {
+          btn.disabled = false;
+          btn.textContent = "Agregar";
           if (result.error) {
             alert(result.error);
             return;
