@@ -12,7 +12,7 @@ BASE_URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}"
 
 
 def load_data():
-    headers = {"X-Master-Key": API_KEY}
+    headers = {"X-Access-Key": API_KEY}
     res = requests.get(BASE_URL, headers=headers)
     if res.status_code == 200:
         return res.json().get("record", {"names": [], "scores": {}})
@@ -20,7 +20,7 @@ def load_data():
 
 
 def save_data(data):
-    headers = {"X-Master-Key": API_KEY, "Content-Type": "application/json"}
+    headers = {"X-Access-Key": API_KEY, "Content-Type": "application/json"}
     requests.put(BASE_URL, headers=headers, json=data)
 
 
