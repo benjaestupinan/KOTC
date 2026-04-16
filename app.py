@@ -61,3 +61,15 @@ def add_name():
     data["scores"][name] = 0
     save_data(data)
     return jsonify({"success": True})
+
+
+@app.route("/<path:path>")
+@app.route("/")
+def serve(path=""):
+    from flask import send_from_directory
+
+    return send_from_directory(".", "index.html")
+
+
+# Vercel entrypoint
+app = app
