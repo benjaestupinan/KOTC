@@ -24,11 +24,13 @@ def load_data():
 def save_data(data):
     try:
         headers = {"Content-Type": "application/json"}
-        res = requests.put(BASE_URL, headers=headers, json=data, timeout=5)
-        print(f"save_data response: {res.status_code}")
+        res = requests.put(BASE_URL, headers=headers, json=data, timeout=10)
+        res.raise_for_status()
+        print(f"save_data OK: {res.status_code}")
         return res
     except Exception as e:
         print(f"save_data error: {e}")
+        raise
 
 
 @app.route("/api/data")
