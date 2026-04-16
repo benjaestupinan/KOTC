@@ -1,1 +1,1 @@
-# COTK
+# KOTC
